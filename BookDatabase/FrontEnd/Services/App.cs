@@ -1,5 +1,5 @@
-﻿using BookDatabase.FrontEnd.Classes.Screens;
-using BookDatabase.FrontEnd.Classes.SuperClasses;
+﻿using BookDatabase.FrontEnd.Classes.Interfaces;
+using BookDatabase.FrontEnd.Classes.Screens;
 using Microsoft.Extensions.DependencyInjection;
 
 namespace BookDatabase.FrontEnd.Services
@@ -7,33 +7,22 @@ namespace BookDatabase.FrontEnd.Services
 	internal static class App
 	{
 		private static event Action<Type> loadScreen;
-		public static void LoadScreen(string screenName)
-		{
-			Type screenType = TryConvertToScreenType(screenName);
-			loadScreen?.Invoke(screenType);
-		}
+		public static void LoadScreen(Type screenType) => loadScreen?.Invoke(screenType);
 
 		public static Book? ActiveBook { get; private set; }
 
 		public static void Run()
 		{
 			var serviceProvider = new ServiceCollection()
-				.AddSingleton<Screen, HomeScreen>()
+				.AddSingleton<IScreen, HomeScreen>()
+				.AddSingleton<IScreen, ExitScreen>()
+				.AddSingleton<IScreen, BrowseBooksScreen>()
 				.BuildServiceProvider();
 
-			var screens = serviceProvider.GetServices<Screen>().ToList();
+			var screens = serviceProvider.GetServices<IScreen>().ToList();
 			screens.ForEach(s => loadScreen += s.Load);
 
-			LoadScreen("HomeScreen");
-		}
-
-		private static Type TryConvertToScreenType(string screenTypeName)
-		{
-			Type screenType = Type.GetType($"BookDatabase.FrontEnd.Classes.Screens.{screenTypeName}");
-
-			if (screenType is null) throw new ApplicationException($"'{screenTypeName}' is an invalid screen name.");
-
-			return screenType;
+			HomeScreen.Open();
 		}
 	}
 }

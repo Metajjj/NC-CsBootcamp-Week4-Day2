@@ -1,20 +1,13 @@
 ﻿using BookDatabase.FrontEnd.Classes.Components;
-using BookDatabase.FrontEnd.Classes.SuperClasses;
+using BookDatabase.FrontEnd.Classes.Interfaces;
 
 namespace BookDatabase.FrontEnd.Classes.Screens
 {
-	internal class HomeScreen() : Screen(typeof(HomeScreen))
+	internal class HomeScreen : MenuScreen<HomeScreen>, IScreen
 	{
-		private static readonly string prompt = $"Welcome to LIBRARY!";
-		private static readonly List<string> options = ["1", "2", "3", "4"];
-		private static readonly List<string> navigation = ["Back", "1stScreen", "2ndScreen", "3"];
-
-
-		internal override void Run()
-		{
-            int selection = Menu.GetSelection("Select an option", ["1", "2", "3"]);
-            Console.WriteLine($"User selected {selection}");
-			Console.ReadKey(true);
-		}
+		internal override string Title { get; }  = $"The Library";
+		internal override string Prompt { get; } = $"Welcome to the library, what would you like to do?";
+		internal override List<string> Options { get; } = ["Browse Books", "Exit The Library"];
+		internal override List<Action> Navigation { get; } = [ExitScreen.Open, BrowseBooksScreen.Open, ExitScreen.Open];
 	}
 }

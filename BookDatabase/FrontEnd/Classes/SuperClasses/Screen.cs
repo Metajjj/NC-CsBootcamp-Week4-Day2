@@ -1,21 +1,22 @@
-﻿namespace BookDatabase.FrontEnd.Classes.SuperClasses
+﻿using BookDatabase.FrontEnd.Classes.Interfaces;
+using BookDatabase.FrontEnd.Services;
+
+namespace BookDatabase.FrontEnd.Classes.SuperClasses
 {
-	internal abstract class Screen
+	public abstract class Screen<T> : IScreen
 	{
-		private readonly Type _screenType;
+		internal static void Open()
+		{
+			App.LoadScreen(typeof(T));
+		}
 
-        protected Screen(Type screenType)
-        {
-            if (typeof(Screen).IsAssignableFrom(screenType)) _screenType = screenType;
+		public Type _screenType => typeof(T);
 
-            else throw new ApplicationException($"An invalid screen type has been created as implementing Screen: {screenType.GetType().FullName}.");
-        }
-
-        internal void Load(Type screenType)
+		internal void Load(Type screenType)
 		{
 			if (screenType == _screenType) Run();
 		}
 
-		internal abstract void Run();
+		public abstract void Run();
 	}
 }
