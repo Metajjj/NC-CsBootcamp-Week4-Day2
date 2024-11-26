@@ -14,15 +14,15 @@ namespace BookDatabase.FrontEnd.Services
 		public static void Run()
 		{
 			var serviceProvider = new ServiceCollection()
-				.AddSingleton<IScreen, HomeScreen>()
-				.AddSingleton<IScreen, ExitScreen>()
-				.AddSingleton<IScreen, BrowseBooksScreen>()
+				.AddSingleton<IScreen, MainMenuScreen>()
+				.AddSingleton<IScreen, ExitMenuScreen>()
+				.AddSingleton<IScreen, BrowseBooksMenuScreen>()
 				.BuildServiceProvider();
 
 			var screens = serviceProvider.GetServices<IScreen>().ToList();
 			screens.ForEach(s => loadScreen += s.Load);
 
-			HomeScreen.Open();
+			MainMenuScreen.Open();
 		}
 	}
 }

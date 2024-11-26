@@ -29,12 +29,11 @@ namespace BookDatabase.FrontEnd.Classes.Components
 				if (key >= ConsoleKey.D1 && key <= ConsoleKey.D9)
 				{
 					int selection = (int)(key - ConsoleKey.D1);
-					if (selection < options.Count)
-					{
-						return selection + 1;
-					}
+					if (selection < options.Count) return selection + 1;
 				}
+
 				if (key == ConsoleKey.Enter) return currentIndex + 1;
+
 				if (key == ConsoleKey.Backspace) return 0;
 
 				currentIndex = UpdateCurrentIndex(key, currentIndex, options.Count);
