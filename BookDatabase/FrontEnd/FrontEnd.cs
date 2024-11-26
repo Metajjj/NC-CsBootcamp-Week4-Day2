@@ -26,4 +26,6 @@ namespace BookDatabase.FrontEnd
            run async so q can work whenever? or queue to after process
         */
     }
+
+    // what i want to run in a new thread
 }
